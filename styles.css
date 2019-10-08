@@ -21,7 +21,8 @@ a,
 a:hover,
 .link:hover,
 .link.active {
-  color: #408a97;
+  /*color: #408a97;*/
+  color: #f55d3e;
 }
 
 a.white:hover {
@@ -127,7 +128,8 @@ h4, .f4 { font-size: 1.25rem; }
 .btn:hover,
 .btn:active {
   color: #fff;
-  background: #408a97;
+  /*background: #408a97;*/
+  background: #f55d3e;
 }
 
 .br50 { border-radius: 50%; }

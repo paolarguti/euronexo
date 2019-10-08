@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css"/>
 
   <link rel="stylesheet" href="styles.css"/>
-  <link rel="icon" href="assets/favicon.ico">
+ <!--  <link rel="icon" href="assets/favicon.ico"> -->
 </head>
 
 <body>
@@ -27,7 +27,7 @@
     <div class="container pv5 flex items-center">
       <div class="w-40">
         <h1>Estudia en Europa</h1>
-        <p class="mb4">Encuentra los mejores programas de pegrado y posgrado en reconocidas universidades Españolas, becas y aplica desde Colombia!</p>
+        <p class="mb4">Encuentra los mejores programas de pegrado y posgrado en reconocidas universidades Españolas y aplica desde Colombia!</p>
 
         <a href="" class="btn">Ver programas</a>
       </div>
@@ -88,65 +88,121 @@
     </div>
   </section>
 
-
-  <section class="pv5" style="background: #cfcfcf;">
+  <section id="courses" class="pv5" style="background: #ececec;">
     <div class="container">
-    <h2 class="tc">Convocatorias Abiertas</h2>
-      <div class="flex">
-        <div class="w-25 ph2">
-          <div class="bg-white shadow-4 pa4">
-            <h4 class="f5 mb2">Instituto Europeo de Posgrado - IEP</h4>
+      <h2 class="tc">Másters Oficiales en España</h2>
 
-            <p class="f6 mb3 gray ttu sans"><i class="fas fa-map-marker-alt"></i> Valencia, España</p>
+      <div  class="flex flex-wrap">
+        <div v-for="course in paginatedList" class="w-25 ph2 mb3">
+          <div class="bg-white shadow-4 pa4 h-100">
+            <p class="mb1">${course.university}</p>
 
-            <p class="mb3">MBA, Maestrías y especializaciones en diferentes áreas</p>
+            <p class="f6 mb3 gray ttu sans"><i class="fas fa-map-marker-alt"></i> ${course.city}, ${course.country}</p>
 
-            <a href="" class="fw5 rubik">Ver información <i class="fas fa-arrow-right"></i></a>
+            <h4 class="f5 mb3">${course.course}</h4>
+
+            <a :href="course.url" class="rubik pointer" target="_blank">Ver información <i class="fas fa-arrow-right"></i></a>
           </div>
         </div>
-
-        <div class="w-25 ph2">
-          <div class="bg-white shadow-4 pa4">
-            <h4 class="f5 mb2">Institut Universitari de ciencia i tecnologia-IUCT</h4>
-
-            <p class="f6 mb3 gray ttu sans"><i class="fas fa-map-marker-alt"></i> Barcelona, España</p>
-
-            <p class="mb3">Máster en biotecnología aplicada y gestión de procesos biotécnicos</p>
-
-            <a href="" class="fw5 rubik">Ver información <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </div>
-
-         <div class="w-25 ph2">
-          <div class="bg-white shadow-4 pa4">
-            <h4 class="f5 mb2">OEA - Universidad Politécnica de Valencia</h4>
-
-            <p class="f6 mb3 gray ttu sans">><i class="fas fa-map-marker-alt"></i> Valencia, España</p>
-
-            <p class="mb3">Grid connected and stand-alone photovoltaic systems</p>
-
-            <a href="" class="fw5 rubik">Ver información <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </div>
-
-         <div class="w-25 ph2">
-          <div class="bg-white shadow-4 pa4">
-            <h4 class="f5 mb2">Institut Universitari de ciencia i tecnologia-IUCT</h4>
-
-            <p class="f6 mb3 gray ttu sans"><i class="fas fa-map-marker-alt"></i> Barcelona, España</p>
-
-            <p class="mb3">Máster en tecnología microbiana avanzada</p>
-
-            <a href="" class="fw5 rubik">Ver información <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </div>
-
       </div>
 
-      <a href="">Explorar Becas &#187;</a>
+      <ul class="list flex justify-center">
+        <li class="mh2 link pointer"
+          :class="{'disabled o-40': currentPage === 1}"
+          @click.prevent="changePage(currentPage - 1)">
+          <i class="fas fa-angle-double-left"></i>
+        </li>
+
+        <li v-for="n in pageCount" class="mh2 link pointer"
+          :key="n"
+          :class="{'bb bw1 active': n === currentPage}"
+          @click.prevent="changePage(n)">
+          ${ n }
+        </li>
+
+        <li class="mh2 link pointer"
+          :class="{'disabled o-40': currentPage === pageCount}"
+          @click.prevent="changePage(currentPage + 1)">
+          <i class="fas fa-angle-double-right"></i>
+        </li>
+      </ul>
     </div>
 
   </section>
 
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+  <!-- tabletop: A library to get google sheets data as json -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+
+  <script>
+    var courses = new Vue({
+      el: '#courses',
+      delimiters: ['${','}'],
+      data: {
+        courses: [],
+        currentPage: 1,
+        perPage: 12,
+      },
+
+      computed: {
+        cities: function() {
+          return _.uniq(_.map(this.courses, 'city'));
+        },
+
+        areas: function() {
+          return _.uniq(_.map(this.courses, 'area'));
+        },
+
+        filteredList: function() {
+          return this.courses;
+        },
+
+        startIndex: function() {
+          return (this.currentPage - 1) * this.perPage;
+        },
+
+        endIndex: function() {
+          var itemsCount = this.filteredList.length;
+          var pageLastIndex = this.currentPage * this.perPage;
+          return pageLastIndex < itemsCount ? pageLastIndex : itemsCount;
+        },
+
+        paginatedList: function() {
+          return this.filteredList.slice(this.startIndex, this.endIndex);
+        },
+
+        pageCount: function() {
+          return Math.ceil(this.filteredList.length / this.perPage);
+        }
+      },
+
+      methods: {
+        changePage: function(n) {
+          // this.scrollIntoView('exhibitions');
+          // this.setLoading(true);
+          this.currentPage = n;
+          // setTimeout(() => { this.setLoading(false); }, 500);
+
+        }
+      },
+
+      created: function() {
+
+        var self = this;
+        var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/16C4SoPyq50yP2rLITPspAlAQLgDYBEK96Lf3Y1mVcQo/edit?usp=sharing';
+
+        Tabletop.init( { key: publicSpreadsheetUrl,
+                       callback: showInfo,
+                       simpleSheet: true } )
+
+        function showInfo(data, tabletop) {
+          self.courses = data;
+        }
+      }
+    });
+  </script>
+
 </body>
+
 </html>
