@@ -1,4 +1,5 @@
 /*** GLOBAL SETTINGS ***/
+/*#76bed0*/
 html {
   font-family: 'Karla', sans-serif;
   font-size: 18px;
@@ -57,21 +58,19 @@ h4, .f4 { font-size: 1.25rem; }
 
 .black { color: #051c2c; }
 
-.bg-blue { background-color: #0e5172; }
+.gray { color: #878E88; }
 
-.bg-light-blue { background-color: #e5f4fc }
+.b--gray { border-color: #878E88; }
 
-.gray { color: #758b9f; }
+.b--blue { border-color: #76bed0; }
 
-.navy { color: #042b46; }
-
-.b--navy { border-color: #042b46; }
-
-.bg-gray { background-color: #758b9f; }
+.bg-gray { background-color: #878E88; }
 
 .bg-light-gray { background-color: #a3b2bf; }
 
 .bg-near-white { background-color: #f8f8f7; }
+
+.br-50 { border-radius: 50%; }
 
 
 /*** HELPERS ***/
