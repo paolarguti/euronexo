@@ -26,8 +26,8 @@
     </div>
     <div class="container pv5-ns pv4 flex flex-wrap items-center">
       <div class="w-40-ns w-100 mb4 mb0-ns">
-        <h1>Estudia en Europa</h1>
-        <p class="mb4">Encuentra los mejores programas de pegrado y posgrado en reconocidas universidades Españolas y aplica desde Colombia!</p>
+        <h1>Estudia en España</h1>
+        <p class="mb4">Encuentra los mejores programas de pregrado y posgrado en reconocidas universidades Españolas y aplica desde Colombia!</p>
 
         <a href="#courses" class="btn">Ver programas</a>
       </div>
@@ -96,9 +96,58 @@
     <div class="container">
       <h2 class="tc">Másters Oficiales en España</h2>
 
-      <div  class="flex flex-wrap">
+      <div class="flex justify-between mb3 items-center section">
+        <div class="flex w-100 items-center">
+          <div class="ph3 w-third relative">
+            <input type="search" name="" class="w-100 pl4 pr3 pv2 lh-copy ba0" placeholder="Buscar curso...">
+            <div class="absolute left-1 top-0 bottom-0 z-1 flex items-center pl2">
+              <i class="fas fa-search pl1 f6 gray"></i>
+            </div>
+          </div>
+
+          <div class="ph3">
+            <a @click.prevent="show.areas = !show.areas" href="#" class="gray underline db">
+              Area de estudio
+            </a>
+
+            <div class="relative">
+              <div v-show="show.areas" class="absolute top-0 left-0 bg-white shadow-4 pa4">
+                <div v-for="area in filters.areas" class="nowrap">
+                  <input :id="area" type="checkbox" name="" :value="area" v-model="query.areas"> <label :for="area">${ area }</label>
+                </div>
+
+                <div class="pt3">
+                  <a href="#">Filtrar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ph3">
+            <a @click.prevent="show.cities = !show.cities" href="#" class="gray underline db">
+              Ciudad
+            </a>
+
+            <div class="relative">
+              <div v-show="show.cities" class="absolute top-0 left-0 bg-white shadow-4 pa4">
+                <div v-for="city in filters.cities" class="nowrap">
+                  <input :id="city" type="checkbox" name="" :value="city" v-model="query.cities"> <label :for="city">${ city }</label>
+                </div>
+
+                <div class="pt3">
+                  <a href="#">Filtrar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="#" class="nowrap ph3">X Borrar</a>
+      </div>
+
+      <div class="flex flex-wrap section ph2">
         <div v-for="course in paginatedList" class="w-25-l w-third-m w-100 ph2 mb3">
-          <div class="bg-white shadow-4 pa4 h-100">
+          <div class="bg-white pa4 h-100">
             <p class="mb1">${course.university}</p>
 
             <p class="f6 mb3 gray ttu sans"><i class="fas fa-map-marker-alt"></i> ${course.city}, ${course.country}</p>
@@ -176,7 +225,7 @@
         <div class="w-third-l w-50">
           <h4 class="mb2 f5 ttu">Servicios en Colombia</h4>
 
-          <ul class="pl3">
+          <ul class="list pl0">
             <li class="mb1">Elección de estudios</li>
             <li class="mb1">Solicitud de becas</li>
             <li class="mb1">Confección del CV</li>
@@ -187,7 +236,7 @@
         <div class="w-third-l w-50">
           <h4 class="mb2 f5 ttu">Servicios en España</h4>
 
-          <ul class="pl3">
+          <ul class="list pl0">
             <li class="mb1">Permisos de estancia y residencia</li>
             <li class="mb1">Cambio de status migratorio</li>
             <li class="mb1">Homologación, convalidación y equivalencia de títulos</li>
@@ -227,7 +276,7 @@
         <p class="mb0 f6 gray ttu sans">Euronexo es una iniciativa de <a href="http://torrescadavid.com/">Torres Cadavid Abogados</a> y <a href="http://gutierrezmarquez.com">Gutiérrez Márquez Asesores</a>.</p>
       </div>
 
-      <div class="flex justify-end section">
+      <div class="flex justify-end section ph2">
         <i class="fab fa-facebook-f mh2"></i>
         <i class="fab fa-twitter mh2"></i>
         <i class="fab fa-instagram mh2"></i>

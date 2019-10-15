@@ -6,17 +6,30 @@ var courses = new Vue({
     activeCourse: {},
     currentPage: 1,
     perPage: 12,
+
+    filters: {
+      keywords: '',
+
+      areas: [],
+
+      cities: []
+    },
+
+    query: {
+      keywords: '',
+
+      areas: [],
+
+      cities: []
+    },
+
+    show: {
+      areas: false,
+      cities: false
+    }
   },
 
   computed: {
-    cities: function() {
-      return _.uniq(_.map(this.courses, 'city'));
-    },
-
-    areas: function() {
-      return _.uniq(_.map(this.courses, 'area'));
-    },
-
     filteredList: function() {
       return this.courses;
     },
@@ -63,6 +76,8 @@ var courses = new Vue({
 
     function showInfo(data, tabletop) {
       self.courses = data;
+      self.filters.cities = _.uniq(_.map(data, 'city')).sort();
+      self.filters.areas = _.uniq(_.map(data, 'area')).sort();
     }
   }
 });
