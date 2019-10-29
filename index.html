@@ -14,6 +14,9 @@
   <!-- Tachyons: A CSS Framework http://tachyons.io/docs/table-of-styles/-->
   <link rel="stylesheet" href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css"/>
 
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
   <link rel="stylesheet" href="styles.css"/>
  <!--  <link rel="icon" href="assets/favicon.ico"> -->
 </head>
@@ -99,7 +102,7 @@
       <div class="flex justify-between mb3 items-center section">
         <div class="flex w-100 items-center">
           <div class="ph3 w-third relative">
-            <input type="search" name="" class="w-100 pl4 pr3 pv2 lh-copy ba0" placeholder="Buscar curso...">
+            <input v-model="query.keywords" type="search" name="" class="w-100 pl4 pr3 pv2 lh-copy ba0" placeholder="Buscar curso...">
             <div class="absolute left-1 top-0 bottom-0 z-1 flex items-center pl2">
               <i class="fas fa-search pl1 f6 gray"></i>
             </div>
@@ -115,10 +118,6 @@
                 <div v-for="area in filters.areas" class="nowrap">
                   <input :id="area" type="checkbox" name="" :value="area" v-model="query.areas"> <label :for="area">${ area }</label>
                 </div>
-
-                <div class="pt3">
-                  <a href="#">Filtrar</a>
-                </div>
               </div>
             </div>
           </div>
@@ -130,12 +129,9 @@
 
             <div class="relative">
               <div v-show="show.cities" class="absolute top-0 left-0 bg-white shadow-4 pa4">
+
                 <div v-for="city in filters.cities" class="nowrap">
                   <input :id="city" type="checkbox" name="" :value="city" v-model="query.cities"> <label :for="city">${ city }</label>
-                </div>
-
-                <div class="pt3">
-                  <a href="#">Filtrar</a>
                 </div>
               </div>
             </div>
@@ -146,6 +142,7 @@
       </div>
 
       <div class="flex flex-wrap section ph2">
+
         <div v-for="course in paginatedList" class="w-25-l w-third-m w-100 ph2 mb3">
           <div class="bg-white pa4 h-100">
             <p class="mb1">${course.university}</p>
@@ -157,6 +154,7 @@
             <a href="#" class="rubik pointer" target="_blank" @click.prevent="activeCourse = course">Ver información <i class="fas fa-arrow-right"></i></a>
           </div>
         </div>
+
       </div>
 
       <ul class="pa0 list flex justify-center mb4">

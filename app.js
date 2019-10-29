@@ -31,7 +31,15 @@ var courses = new Vue({
 
   computed: {
     filteredList: function() {
-      return this.courses;
+      if (!this.hasFilters) return this.courses;
+
+      var q = this.query;
+
+      return this.courses.filter(function(course) {
+        return ( q.keywords.length === 0 || _.includes(q.keywords, course.course) )
+            && _.includes(q.cities, course.city)
+            && _.includes(q.areas, course.area);
+      });
     },
 
     startIndex: function() {
@@ -50,6 +58,10 @@ var courses = new Vue({
 
     pageCount: function() {
       return Math.ceil(this.filteredList.length / this.perPage);
+    },
+
+    hasFilters: function() {
+      return this.query.keywords.length || this.query.areas.length || this.query.cities.length;
     }
   },
 
@@ -76,8 +88,12 @@ var courses = new Vue({
 
     function showInfo(data, tabletop) {
       self.courses = data;
-      self.filters.cities = _.uniq(_.map(data, 'city')).sort();
-      self.filters.areas = _.uniq(_.map(data, 'area')).sort();
+      var cities = _.uniq(_.map(data, 'city')).sort()
+      var areas = _.uniq(_.map(data, 'area')).sort();
+      self.filters.cities = cities;
+      self.query.cities = cities;
+      self.filters.areas = areas;
+      self.query.areas = areas;
     }
   }
 });
