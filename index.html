@@ -99,58 +99,90 @@
     <div class="container">
       <h2 class="tc">Másters Oficiales en España</h2>
 
-      <div class="flex justify-between mb3 items-center section">
-        <div class="flex w-100 items-center">
-          <div class="ph3 w-third relative">
-            <input v-model="query.keywords" type="search" name="" class="w-100 pl4 pr3 pv2 lh-copy ba0" placeholder="Buscar curso...">
-            <div class="absolute left-1 top-0 bottom-0 z-1 flex items-center pl2">
-              <i class="fas fa-search pl1 f6 gray"></i>
-            </div>
-          </div>
-
-          <div class="ph3">
-            <a @click.prevent="show.areas = !show.areas" href="#" class="gray underline db">
-              Area de estudio
-            </a>
-
-            <div class="relative">
-              <div v-show="show.areas" class="absolute top-0 left-0 bg-white shadow-4 pa4">
-                <div v-for="area in filters.areas" class="nowrap">
-                  <input :id="area" type="checkbox" name="" :value="area" v-model="query.areas"> <label :for="area">${ area }</label>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="ph3">
-            <a @click.prevent="show.cities = !show.cities" href="#" class="gray underline db">
-              Ciudad
-            </a>
-
-            <div class="relative">
-              <div v-show="show.cities" class="absolute top-0 left-0 bg-white shadow-4 pa4">
-
-                <div v-for="city in filters.cities" class="nowrap">
-                  <input :id="city" type="checkbox" name="" :value="city" v-model="query.cities"> <label :for="city">${ city }</label>
-                </div>
-              </div>
-            </div>
+      <div class="flex flex-row-ns flex-column mb3 items-center-ns section">
+        <div class="ph3-ns ph2 w-40-ns w-100 relative">
+          <input v-model="query.keywords" type="search" name="" class="w-100 pl4 pr3 pv2 lh-copy ba0 input-reset" placeholder="Buscar curso...">
+          <div class="absolute left-1 top-0 bottom-0 z-1 flex items-center pl2">
+            <i class="fas fa-search pl1 f6 gray"></i>
           </div>
         </div>
 
-        <a href="#" class="nowrap ph3">X Borrar</a>
+        <div class="relative flex flex-wrap w-100 justify-between items-center">
+
+          <div class="flex w-auto-ns">
+            <div class="ph3-ns ph2">
+              <a @click.prevent="toogleFilter('areas')" href="#" class="gray underline db z-2 relative pv2">
+                Area de estudio
+              </a>
+
+              <div class="relative-ns static">
+                <div v-show="openFilter && openFilter === 'areas'" class="absolute top-0-ns top-2 left--2-ns right-auto-ns left-0 right-0 bg-white shadow-4 pa4 z-2 w-auto-ns">
+                  <p class="f6 nowrap-ns">
+                    <a href="" @click.prevent="selectAll('areas')">
+                      Seleccionar Todo
+                    </a>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a href="#" @click.prevent="clearAll('areas')">
+                      Borrar Selección
+                    </a>
+                  </p>
+
+                  <div v-for="area in filters.areas" class="nowrap-ns">
+                    <input :id="area" type="checkbox" name="" :value="area" v-model="query.areas"> <label :for="area">${ area }</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ph3-ns ph2">
+              <a @click.prevent="toogleFilter('cities')" href="#" class="gray underline db z-2 relative pv2">
+                Ciudad
+              </a>
+
+              <div class="relative-ns static">
+                <div v-show="openFilter && openFilter === 'cities'" class="absolute top-0-ns top-2 left--2-ns right-auto-ns left-0 right-0 bg-white shadow-4 pa4 z-2 w-auto-ns">
+                  <p class="f6 nowrap-ns">
+                    <a href="" @click.prevent="selectAll('cities')">
+                      Seleccionar Todo
+                    </a>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a href="#" @click.prevent="clearAll('cities')">
+                      Borrar Selección
+                    </a>
+                  </p>
+
+                  <div v-for="city in filters.cities" class="nowrap-ns">
+                    <input :id="city" type="checkbox" name="" :value="city" v-model="query.cities"> <label :for="city">${ city }</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a href="#" class="nowrap ph3-ns ph2"
+            :class="{'disabled o-40': !hasFilters}"
+            @click.prevent="clearAll('all')">
+              x Borrar Filtros
+          </a>
+        </div>
       </div>
 
+      <div>
+        <p class="gray f6">${ resultsText }</p>
+      </div>
+
+      <div v-if="openFilter" class="fixed absolute--fill z-1" @click.stop="closeFilters"></div>
+
       <transition-group tag="div" name="course" class="flex flex-wrap section ph2">
-        <div v-for="course in paginatedList" :key="course.id" class="w-25-l w-third-m w-100 ph2 mb3">
+        <div v-for="course in paginatedList" :key="course.id" class="w-25-l w-third-m w-100 ph2-ns mb3">
           <div class="bg-white pa4 h-100">
             <p class="mb1">${course.university}</p>
 
-            <p class="f6 mb3 gray sans"><i class="fas fa-map-marker-alt"></i> ${course.city}, ${course.country}</p>
+            <p class="f6 mb3 gray"><i class="fas fa-map-marker-alt"></i> ${course.city}, ${course.country}</p>
 
-            <h4 class="f5 mb3">${course.course}</h4>
+            <h4 class="f4 mb3">${course.course}</h4>
 
-            <a href="#" class="rubik pointer" target="_blank" @click.prevent="activeCourse = course">Ver información <i class="fas fa-arrow-right"></i></a>
+            <a href="#" class="pointer" target="_blank" @click.prevent="activeCourse = course">Ver información <i class="fas fa-arrow-right f6"></i></a>
           </div>
         </div>
       </transition-group>
@@ -215,73 +247,73 @@
 
   <footer class="pt4 pb2">
     <div class="container">
-       <div class="section flex flex-wrap justify-between pv3">
+      <div class="section flex flex-wrap justify-between pv3">
+        <div class="w-75-ns w-100 flex">
+          <div class="w-third-l w-50 ph3-ns ph2">
+            <h4 class="mb2 f5 ttu">Servicios en Colombia</h4>
 
-      <div class="w-75-ns w-100 flex">
-        <div class="w-third-l w-50">
-          <h4 class="mb2 f5 ttu">Servicios en Colombia</h4>
+            <ul class="list pl0">
+              <li class="mb1">Elección de estudios</li>
+              <li class="mb1">Solicitud de becas</li>
+              <li class="mb1">Confección del CV</li>
+              <li>Trámite de visados</li>
+            </ul>
+          </div>
 
-          <ul class="list pl0">
-            <li class="mb1">Elección de estudios</li>
-            <li class="mb1">Solicitud de becas</li>
-            <li class="mb1">Confección del CV</li>
-            <li>Trámite de visados</li>
-          </ul>
-        </div>
+          <div class="w-third-l w-50 ph3-ns ph2">
+            <h4 class="mb2 f5 ttu">Servicios en España</h4>
 
-        <div class="w-third-l w-50">
-          <h4 class="mb2 f5 ttu">Servicios en España</h4>
-
-          <ul class="list pl0">
-            <li class="mb1">Permisos de estancia y residencia</li>
-            <li class="mb1">Cambio de status migratorio</li>
-            <li class="mb1">Homologación, convalidación y equivalencia de títulos</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="w-25-l w-100 flex flex-column flex-row-m">
-        <!-- <h4 class="mb2">Contacto</h4> -->
-        <div class="flex items-start mr4-m">
-          <img src="https://cdn1.iconfinder.com/data/icons/rounded-flat-country-flag-collection-1/2000/co-01.png" class="h2 mr3 br-50">
-
-          <div>
-            <p class="mb1">+57 4 444 5044</p>
-            <p>Calle 7 Sur No. 42 - 70, Of. 1601
-              <br>Medellín, Colombia.
-            </p>
+            <ul class="list pl0">
+              <li class="mb1">Permisos de estancia y residencia</li>
+              <li class="mb1">Cambio de status migratorio</li>
+              <li class="mb1">Homologación, convalidación y equivalencia de títulos</li>
+            </ul>
           </div>
         </div>
 
-        <div class="flex items-start">
-          <img src="https://cdn.countryflags.com/thumbs/spain/flag-round-250.png" class="h2 mr3 br-50">
+        <div class="w-25-l w-100 flex flex-column flex-row-m ph3-ns ph2">
+          <!-- <h4 class="mb2">Contacto</h4> -->
+          <div class="flex items-start mr4-m">
+            <img src="https://cdn1.iconfinder.com/data/icons/rounded-flat-country-flag-collection-1/2000/co-01.png" class="h2 mr3 br-50">
 
-          <div>
-            <p class="mb1">+34 886 122 330</p>
-            <p>Av. Pizarro 21, ent.º D. 36204
-              <br>Vigo, España
-            </p>
+            <div>
+              <p class="mb1">+57 4 444 5044</p>
+              <p>Calle 7 Sur No. 42 - 70, Of. 1601
+                <br>Medellín, Colombia.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start">
+            <img src="https://cdn.countryflags.com/thumbs/spain/flag-round-250.png" class="h2 mr3 br-50">
+
+            <div>
+              <p class="mb1">+34 886 122 330</p>
+              <p>Av. Pizarro 21, ent.º D. 36204
+                <br>Vigo, España
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="flex flex-row-ns flex-column justify-between items-center bt bb-0 br-0 bl-0 b--dashed b--blue pt2">
-      <div class="flex justify-start items-center mb3 mb0-ns">
-        <img src="https://www.freelogodesign.org/file/app/client/thumb/66f9462d-abce-4167-b80a-2307f22674ce_200x200.png?1567360701142" class="db w2 mr2 db">
-        <p class="mb0 f6 gray ttu sans">Euronexo es una iniciativa de <a href="http://torrescadavid.com/">Torres Cadavid Abogados</a> y <a href="http://gutierrezmarquez.com">Gutiérrez Márquez Asesores</a>.</p>
-      </div>
+      <div class="flex flex-row-ns flex-column justify-between items-center bt bb-0 br-0 bl-0 b--dashed b--blue pt2">
+        <div class="flex justify-start items-center mb3 mb0-ns">
+          <img src="https://www.freelogodesign.org/file/app/client/thumb/66f9462d-abce-4167-b80a-2307f22674ce_200x200.png?1567360701142" class="db w2 mr2 db">
+          <p class="mb0 f6 gray ttu sans">Euronexo es una iniciativa de <a href="http://torrescadavid.com/">Torres Cadavid Abogados</a> y <a href="http://gutierrezmarquez.com">Gutiérrez Márquez Asesores</a>.</p>
+        </div>
 
-      <div class="flex justify-end section ph2">
-        <i class="fab fa-facebook-f mh2"></i>
-        <i class="fab fa-twitter mh2"></i>
-        <i class="fab fa-instagram mh2"></i>
-        <i class="fab fa-linkedin-in mh2"></i>
+        <div class="flex justify-end section ph2">
+          <i class="fab fa-facebook-f mh2"></i>
+          <i class="fab fa-twitter mh2"></i>
+          <i class="fab fa-instagram mh2"></i>
+          <i class="fab fa-linkedin-in mh2"></i>
+        </div>
       </div>
     </div>
   </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script> -->
   <!-- tabletop: A library to get google sheets data as json -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js

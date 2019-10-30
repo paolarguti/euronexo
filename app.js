@@ -23,10 +23,7 @@ var courses = new Vue({
       cities: []
     },
 
-    show: {
-      areas: false,
-      cities: false
-    }
+    openFilter: null
   },
 
   watch: {
@@ -50,6 +47,24 @@ var courses = new Vue({
       });
     },
 
+    resultsText: function() {
+      var coursesCount = this.courses.length;
+      var resultsCount = this.filteredList.length;
+
+      if (resultsCount === 0) {
+        return 'No encontramos Másters para tu búsqueda';
+
+      } else if (this.hasFilters) {
+        var areasText = _.isEqual(this.query.areas, this.filters.areas) ? '' : ' de ' + this.query.areas.join(', ');
+        var citiesText = _.isEqual(this.query.cities, this.filters.cities) ? '' : ' en ' + this.query.cities.join(', ');
+
+        return resultsCount + ' Másters Oficiales' + areasText + citiesText;
+
+      } else {
+        return coursesCount + ' Másters Oficiales';
+      }
+    },
+
     startIndex: function() {
       return (this.currentPage - 1) * this.perPage;
     },
@@ -69,16 +84,36 @@ var courses = new Vue({
     },
 
     hasFilters: function() {
-      return this.query.keywords.length || this.query.areas.length || this.query.cities.length;
+      return !_.isMatch(this.query, this.filters);
     }
   },
 
   methods: {
+    toogleFilter: function(filter) {
+      this.openFilter && this.openFilter === filter ? this.closeFilters() : this.showFilter(filter);
+    },
+    showFilter: function(filter) {
+      this.closeFilters();
+      this.openFilter = filter;
+
+    },
+    closeFilters: function() {
+      this.openFilter = null;
+    },
+    selectAll: function(filter) {
+      this.query[filter] = this.filters[filter];
+    },
+    clearAll: function(filter) {
+      if (filter === 'all') {
+        this.query['keywords'] = '';
+        this.query['areas'] = this.filters['areas'];
+        this.query['cities'] = this.filters['cities'];
+      } else {
+        this.query[filter] = [];
+      }
+    },
     changePage: function(n) {
-      // this.scrollIntoView('exhibitions');
-      // this.setLoading(true);
       this.currentPage = n;
-      // setTimeout(() => { this.setLoading(false); }, 500);
     },
     toggleModal: function(content) {
       this.activeCourse = content;

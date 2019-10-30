@@ -1,8 +1,40 @@
-/*Vendors*/
+/*** VENDORS ***/
+
+/*Animate.css*/
 .animated {
   -webkit-animation-duration:0.2s;
           animation-duration:0.2s;
 }
+
+/*Tachyons*/
+h1, .f1 { font-size: 2.441rem; }
+
+h2, .f2 { font-size: 1.953rem; }
+
+h3, .f3 { font-size: 1.563rem; }
+
+h4, .f4 { font-size: 1.25rem; }
+
+.f6 { font-size: 0.8rem; }
+
+.f7 { font-size: 0.64rem; }
+
+.tracked { letter-spacing: 0.0275em; }
+
+.black { color: #051c2c; }
+
+.gray { color: #878E88; }
+
+.b--gray { border-color: #878E88; }
+
+.b--blue { border-color: #76bed0; }
+
+.bg-gray { background-color: #878E88; }
+
+.bg-light-gray { background-color: #a3b2bf; }
+
+.bg-near-white { background-color: #f8f8f7; }
+
 
 /*** GLOBAL SETTINGS ***/
 /*#76bed0*/
@@ -45,53 +77,31 @@ h1, h2, h3, h4 {
 .rubik {
   font-family: 'Rubik', sans-serif;
 }
-/*** TACHYONS OVERWRITE ***/
-/*type scale*/
-h1, .f1 { font-size: 2.441rem; }
+input {
+  border: 1px solid white;
+  -moz-transition: all .1s linear;
+  -webkit-transition: all .1s linear;
+  transition: all .1s linear;
+}
 
-h2, .f2 { font-size: 1.953rem; }
-
-h3, .f3 { font-size: 1.563rem; }
-
-h4, .f4 { font-size: 1.25rem; }
-
-.f6 { font-size: 0.8rem; }
-
-.f7 { font-size: 0.64rem; }
-
-
-.tracked { letter-spacing: 0.0275em; }
-
-.black { color: #051c2c; }
-
-.gray { color: #878E88; }
-
-.b--gray { border-color: #878E88; }
-
-.b--blue { border-color: #76bed0; }
-
-.bg-gray { background-color: #878E88; }
-
-.bg-light-gray { background-color: #a3b2bf; }
-
-.bg-near-white { background-color: #f8f8f7; }
-
-.br-50 { border-radius: 50%; }
-
+input:focus {
+  outline: none;
+  border: 1px solid #76bed0;
+}
 
 /*** HELPERS ***/
 .container {
   width: 1200px;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
 
 .section {
-  margin-right: -1rem;
-  margin-left: -1rem
+  margin-right: -0.5rem;
+  margin-left: -0.5rem
 }
 
 .paragraph {
@@ -107,6 +117,8 @@ h4, .f4 { font-size: 1.25rem; }
 .ar--square:before {
   padding-top: 100%;
 }
+
+.br-50 { border-radius: 50%; }
 
 .btn {
   padding: 0.75em 2em;
@@ -142,7 +154,6 @@ h4, .f4 { font-size: 1.25rem; }
   background: #f55d3e;
 }
 
-
 .disabled {
   pointer-events: none;
 }
@@ -163,25 +174,16 @@ h4, .f4 { font-size: 1.25rem; }
 
 /*** TABLET AND DESKTOP ***/
 @media screen and (min-width: 30em) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .section {
+    margin-right: -1rem;
+    margin-left: -1rem
+  }
   .bg-near-white-ns { background-color: #f8f8f7; }
+  .right-auto-ns { right: auto; }
 }
 
-/*** PRINT ***/
-@page { margin: 0; }
-
-@media print {
-  html, body, main[size="A4"] { height: auto; }
-
-  .dn-print { display: none; }
-
-  /*extend tachyons' tablet/desktop styles*/
-  .flex-row-ns { flex-direction: row; }
-
-  .order-1-ns { order: 1; }
-
-  .order-2-ns { order: 2; }
-
-  .w-third-ns { width: 33.33%; }
-
-  .w-two-thirds-ns { width: 66.66%; }
-}
