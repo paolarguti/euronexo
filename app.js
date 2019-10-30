@@ -29,6 +29,14 @@ var courses = new Vue({
     }
   },
 
+  watch: {
+    currentPage: function() {
+      setTimeout(function() {
+        document.getElementById('courses').scrollIntoView({behavior: "smooth"});
+      }, 100);
+    }
+  },
+
   computed: {
     filteredList: function() {
       if (!this.hasFilters) return this.courses;
@@ -36,7 +44,7 @@ var courses = new Vue({
       var q = this.query;
 
       return this.courses.filter(function(course) {
-        return ( q.keywords.length === 0 || _.includes(q.keywords, course.course) )
+        return ( q.keywords.length === 0 || _.includes(course.course.toLowerCase(), q.keywords.toLowerCase()) )
             && _.includes(q.cities, course.city)
             && _.includes(q.areas, course.area);
       });

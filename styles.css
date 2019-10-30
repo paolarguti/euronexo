@@ -1,3 +1,9 @@
+/*Vendors*/
+.animated {
+  -webkit-animation-duration:0.2s;
+          animation-duration:0.2s;
+}
+
 /*** GLOBAL SETTINGS ***/
 /*#76bed0*/
 html {
@@ -136,48 +142,16 @@ h4, .f4 { font-size: 1.25rem; }
   background: #f55d3e;
 }
 
-.br50 { border-radius: 50%; }
-
-.flip-x {
-  transform: scaleX(-1)
-}
 
 .disabled {
   pointer-events: none;
 }
 
-.bg-gradient {
-  background: linear-gradient(to bottom, #0e5172 0%,#0e5172 20%,#f8f8f7 20%,#f8f8f7 20%,#f8f8f7 100%);
+.course-enter-active, .course-leave-active {
+  transition: all .2s;
 }
-
-/*** INDEX STYLES ***/
-.w-12_25 {
-  width: 12.25%;
-}
-
-.w-75_50 {
-  width: 75.50%;
-}
-
-#progressBar {
-  height: 0.25rem;
-  background: #0e5172;
-  -moz-transition: width 0.5s ease;
-  -webkit-transition: width 0.5s ease;
-  transition: width 0.5s ease;
-}
-
-.bg-half {
-  background-color: transparent;
-  background:    -moz-linear-gradient(top, #f8f8f7 0%, #f8f8f7 38%, #ffffff 38%, #ffffff 100%);
-  background: -webkit-linear-gradient(top, #f8f8f7 0%, #f8f8f7 38%, #ffffff 38%, #ffffff 100%);
-  background:         linear-gradient(to bottom, #f8f8f7 0%, #f8f8f7 38%, #ffffff 38%, #ffffff 100%);
-}
-
-/*** RESUME STYLES ***/
-main[size="A4"] {
-  width: 21cm;
-  height: 29.7cm;
+.course-enter, .course-leave-to {
+  opacity: 0;
 }
 
 /*** DESKTOP ***/

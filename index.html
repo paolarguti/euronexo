@@ -141,21 +141,19 @@
         <a href="#" class="nowrap ph3">X Borrar</a>
       </div>
 
-      <div class="flex flex-wrap section ph2">
-
-        <div v-for="course in paginatedList" class="w-25-l w-third-m w-100 ph2 mb3">
+      <transition-group tag="div" name="course" class="flex flex-wrap section ph2">
+        <div v-for="course in paginatedList" :key="course.id" class="w-25-l w-third-m w-100 ph2 mb3">
           <div class="bg-white pa4 h-100">
             <p class="mb1">${course.university}</p>
 
-            <p class="f6 mb3 gray ttu sans"><i class="fas fa-map-marker-alt"></i> ${course.city}, ${course.country}</p>
+            <p class="f6 mb3 gray sans"><i class="fas fa-map-marker-alt"></i> ${course.city}, ${course.country}</p>
 
             <h4 class="f5 mb3">${course.course}</h4>
 
             <a href="#" class="rubik pointer" target="_blank" @click.prevent="activeCourse = course">Ver información <i class="fas fa-arrow-right"></i></a>
           </div>
         </div>
-
-      </div>
+      </transition-group>
 
       <ul class="pa0 list flex justify-center mb4">
         <li class="mh2 link pointer"
